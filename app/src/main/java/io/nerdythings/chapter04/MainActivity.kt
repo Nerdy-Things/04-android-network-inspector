@@ -41,6 +41,7 @@ class MainActivity : ComponentActivity() {
     private val okHttpClient by lazy {
         OkHttpClient.Builder().build()
     }
+
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .client(okHttpClient)
@@ -128,6 +129,7 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val BASE_URL = "https://raw.githubusercontent.com"
-        private const val JSON_URL = "$BASE_URL/itkacher/OkHttpProfiler/master/colors.json"
+        private const val JSON_URL =
+            "$BASE_URL/Nerdy-Things/04-android-network-inspector/master/colors.json"
     }
 }
