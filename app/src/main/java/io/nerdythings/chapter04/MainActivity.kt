@@ -31,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -39,7 +40,20 @@ import retrofit2.http.GET
 class MainActivity : ComponentActivity() {
 
     private val okHttpClient by lazy {
-        OkHttpClient.Builder().build()
+        OkHttpClient.Builder()
+            .apply {
+                addOkHttpLoggingInterceptor(this)
+            }
+            .build()
+    }
+
+    private fun addOkHttpLoggingInterceptor(builder: OkHttpClient.Builder) {
+        if (BuildConfig.DEBUG) {
+            val interceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.HEADERS
+            }
+            builder.addInterceptor(interceptor)
+        }
     }
 
     private val retrofit: Retrofit by lazy {
