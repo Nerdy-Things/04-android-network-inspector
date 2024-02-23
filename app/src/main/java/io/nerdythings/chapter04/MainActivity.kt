@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -42,18 +43,19 @@ class MainActivity : ComponentActivity() {
     private val okHttpClient by lazy {
         OkHttpClient.Builder()
             .apply {
-                addOkHttpLoggingInterceptor(this)
+                if (BuildConfig.DEBUG) {
+                    addOkHttpLoggingInterceptor(this)
+                    addInterceptor(OkHttpProfilerInterceptor())
+                }
             }
             .build()
     }
 
     private fun addOkHttpLoggingInterceptor(builder: OkHttpClient.Builder) {
-        if (BuildConfig.DEBUG) {
-            val interceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.HEADERS
-            }
-            builder.addInterceptor(interceptor)
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.HEADERS
         }
+        builder.addInterceptor(interceptor)
     }
 
     private val retrofit: Retrofit by lazy {
