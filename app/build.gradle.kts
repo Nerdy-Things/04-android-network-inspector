@@ -68,6 +68,9 @@ dependencies {
 
     releaseImplementation("com.facebook.flipper:flipper-noop:0.247.0")
 
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

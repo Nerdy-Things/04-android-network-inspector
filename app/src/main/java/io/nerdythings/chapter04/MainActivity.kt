@@ -1,7 +1,10 @@
 package io.nerdythings.chapter04
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.activity.ComponentActivity
@@ -26,7 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +53,7 @@ class MainActivity : ComponentActivity() {
                     addOkHttpLoggingInterceptor(this)
                     addInterceptor(OkHttpProfilerInterceptor())
                     addInterceptor(FlipperOkhttpInterceptor(Flipper.networkFlipperPlugin))
+                    addInterceptor(ChuckerInterceptor(applicationContext))
                 }
             }
             .build()
@@ -81,9 +87,24 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestNotifications()
         setContent {
             val lastTime by lastRequestTime.collectAsState(initial = 0)
             OnButtonScreen(lastTime)
+        }
+    }
+
+    private fun requestNotifications() {
+        if ( Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(arrayOf(
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ), 42312)
+            }
         }
     }
 
