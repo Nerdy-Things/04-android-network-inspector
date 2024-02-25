@@ -7,4 +7,15 @@
             <certificates src="user" />
         </trust-anchors>
     </debug-overrides>
+
+    <!--    DO NOT ADD IT TO YOUR PROD APPLICATION OR CHARLES CONFIGURATION -->
+    <!--    IT MEANT TO USE ONLY FOR PROXYMAN -->
+    <!--    USING CLEAR_TEXT_TRAFFIC IS NOT RECOMMENDED -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+    <!-- END WARNING -->
 </network-security-config>
