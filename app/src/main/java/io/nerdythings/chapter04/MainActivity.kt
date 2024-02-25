@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
                 if (BuildConfig.DEBUG) {
                     addOkHttpLoggingInterceptor(this)
                     addInterceptor(OkHttpProfilerInterceptor())
+                    addInterceptor(FlipperOkhttpInterceptor(Flipper.networkFlipperPlugin))
                 }
             }
             .build()

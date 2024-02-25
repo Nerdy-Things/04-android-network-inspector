@@ -61,6 +61,14 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
+    debugImplementation("com.facebook.flipper:flipper:0.247.0")
+    debugImplementation("com.facebook.soloader:soloader:0.10.5")
+
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:0.247.0")
+
+    releaseImplementation("com.facebook.flipper:flipper-noop:0.247.0")
+
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
